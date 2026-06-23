@@ -173,7 +173,13 @@ const styles = [
   ["Oriental Elite", text => `王 ${convert(text, maps.boldScript)} 龍`],
   ["Asia Vibe", text => `✦ ${text} 星 ✦`],
   ["Samurai Pro", text => `侍 ${convert(text, maps.sansBold)} 忍`],
-  ["K-Style", text => `아이 ${normalizeNick(text)} 스타`]
+  ["K-Style", text => `아이 ${normalizeNick(text)} 스타`],
+  ["Mandarim Letras", text => orientalize(text, "mandarin")],
+  ["Coreano Letras", text => orientalize(text, "korean")],
+  ["Japonês Letras", text => orientalize(text, "japanese")],
+  ["Mandarim Nome", text => `名${orientalize(text, "mandarin")}名`],
+  ["Coreano Nome", text => `별${orientalize(text, "korean")}빛`],
+  ["Japonês Nome", text => `桜${orientalize(text, "japanese")}桜`]
 ];
 
 const symbolCategories = {
@@ -195,10 +201,7 @@ const symbolCategories = {
   "Aesthetic": "୨୧ 𓍯 𓂃 𓈒 𓏸 𓆩𓆪 𓇼 𓋼 𓍼 𓊆𓊇 𝜗𝜚 ᵕ̈ ʚɞ ໒꒱ ꒰꒱ ☁︎ ☾ ⋆ ˚｡",
   "Dark": "⛧ ☠ ☽ ☾ ⛓ ⚰ 🕷 🕸 🗡 ♱ ♰ ✞ ✟ 𖤐 𖤍 𖣔 𖠌 𖦹 𝖝 𝖔",
   "Luxo": "♛ ♕ ♔ ♚ ✦ ✧ ✨ 💎 🜲 ⚜ ❖ ◈ 𓆩𓆪 𓂀 𓃭 𓊝 𓇼 𓋹 𓏲",
-  "Roblox": "🧱 🎮 🕹 👾 ⚔ 🛡 🧢 ⭐ 💎 🔥 ⚡ 🏆 xX Xx _z _br playz blox robux noob pro",
-  "Mandarim": "字 文 名 王 帝 龍 龙 虎 神 影 光 星 月 火 水 風 风 山 天 空 夜 忍 戦 战 愛 爱 夢 梦",
-  "Coreano": "한 글 민 준 서 지 유 하 도 윤 별 빛 달 검 흑 백 왕 신 용 불 물 바 람 밤 꿈 사랑",
-  "Japonês": "神 忍 侍 龍 桜 星 月 火 水 風 山 空 夜 光 影 愛 夢 東京 大 阪 心 刀 王 姫 天"
+  "Roblox": "🧱 🎮 🕹 👾 ⚔ 🛡 🧢 ⭐ 💎 🔥 ⚡ 🏆 xX Xx _z _br playz blox robux noob pro"
 };
 
 const nickPatterns = [
@@ -538,6 +541,7 @@ function getCurrentText() {
 
 function getStyleCategory(name) {
   const lower = name.toLowerCase();
+  if (lower.includes("mandarim") || lower.includes("chinês") || lower.includes("coreano") || lower.includes("hangul") || lower.includes("japonês") || lower.includes("kanji") || lower.includes("oriental") || lower.includes("asia") || lower.includes("samurai") || lower.includes("k-style")) return "Idiomas";
   if (lower.includes("instagram") || lower.includes("insta") || lower.includes("bio")) return "Instagram";
   if (lower.includes("tiktok")) return "TikTok";
   if (lower.includes("free fire") || lower.includes("ff ")) return "Free Fire";
@@ -579,6 +583,17 @@ function normalizeNick(value) {
     .replace(/[^a-zA-Z0-9]/g, "")
     .toLowerCase();
   return clean || "player";
+}
+
+function orientalize(value, mode) {
+  const sets = {
+    mandarin: ["星", "龍", "月", "光", "天", "火", "水", "風", "山", "夜", "夢", "王", "神", "影", "空", "愛", "虎", "帝", "名", "文"],
+    korean: ["한", "글", "민", "준", "서", "지", "유", "하", "도", "윤", "별", "빛", "달", "검", "흑", "백", "신", "용", "람", "꿈"],
+    japanese: ["ア", "キ", "ミ", "ナ", "リ", "サ", "ト", "ユ", "カ", "モ", "神", "忍", "桜", "月", "風", "空", "夜", "光", "愛", "夢"]
+  };
+  const clean = normalizeNick(value);
+  const alphabet = sets[mode] || sets.mandarin;
+  return Array.from(clean).map(char => alphabet[char.charCodeAt(0) % alphabet.length]).join("");
 }
 
 function capitalize(value) {

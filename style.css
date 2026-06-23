@@ -553,6 +553,22 @@ input:focus {
   margin-top: 14px;
 }
 
+.nick-results {
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 6px;
+  scrollbar-color: color-mix(in srgb, var(--cyan) 55%, var(--purple)) transparent;
+}
+
+.nick-results::-webkit-scrollbar {
+  width: 8px;
+}
+
+.nick-results::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--cyan), var(--purple));
+}
+
 .nick-item,
 .history-item {
   display: grid;
