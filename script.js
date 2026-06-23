@@ -2,6 +2,8 @@
 
 const sampleText = "FontVibe";
 const maxHistoryItems = 8;
+let activeStyleFilter = "Todos";
+let activeSymbolCategory = "Corações";
 
 const maps = {
   bold: createMap(0x1d400, 0x1d41a, 0x1d7ce),
@@ -126,7 +128,37 @@ const styles = [
   ["Bubble Mix", text => `◌ ${convert(text, maps.circled)} ◌`],
   ["Square Mix", text => `▰ ${convert(text.toUpperCase(), maps.squared)} ▰`],
   ["Royal Gamer", text => `꧁♛ ${text} ♛꧂`],
-  ["Name Pro", text => `ツ ${convert(text, maps.sansBoldItalic)} ツ`]
+  ["Name Pro", text => `ツ ${convert(text, maps.sansBoldItalic)} ツ`],
+  ["Japonesa", text => `「${text}」`],
+  ["Katana", text => `刀 ${text} 刀`],
+  ["Anime", text => `『${convert(text, maps.smallCaps)}』`],
+  ["Korean Vibe", text => `♡ ${text} ᵕ̈`],
+  ["Y2K", text => `✩ ${spaced(text, ".")} ✩`],
+  ["Baddie", text => `𝖝𝖔 ${convert(text, maps.boldFraktur)} 𝖝𝖔`],
+  ["Princess", text => `୨ৎ ${convert(text, maps.script)} ୨ৎ`],
+  ["Angel Core", text => `໒꒱ ${text} ꣑`],
+  ["Money", text => `＄ ${convert(text, maps.bold)} ＄`],
+  ["Hacker", text => `</ ${convert(text, maps.mono)} >`],
+  ["Matrix", text => `01 ${convert(text, maps.mono)} 10`],
+  ["Streamer", text => `LIVE ${text} ▶`],
+  ["Bio Clean", text => `⌁ ${text.toLowerCase()} ⌁`],
+  ["Bio Luxury", text => `✦ ${convert(text, maps.double)} ✦`],
+  ["Bio Dark", text => `☾ ${convert(text, maps.fraktur)} ☽`],
+  ["Bio Cute", text => `꒰ ${text} ꒱`],
+  ["Roblox Clean", text => `${normalizeNick(text)}Playz`],
+  ["Roblox Pro", text => `${normalizeNick(text)}Blox`],
+  ["Roblox Rare", text => `x${normalizeNick(text)}z`],
+  ["Free Fire Rush", text => `RUSH ${convert(text, maps.bold)}`],
+  ["Free Fire Xit", text => `XIT ${text} ᶠᶠ`],
+  ["FF Clan", text => `ᴳᴳ ${convert(text, maps.smallCaps)}`],
+  ["TikTok Bio", text => `@${normalizeNick(text)} ♬`],
+  ["TikTok Star", text => `✰ ${text} viral ✰`],
+  ["Insta Diva", text => `𝜗𝜚 ${convert(text, maps.script)} 𝜗𝜚`],
+  ["Insta Glow", text => `✧ ${text.toLowerCase()} ✧`],
+  ["Luxury Crown", text => `♛ ${convert(text, maps.boldScript)} ♛`],
+  ["Gold", text => `✦ GOLD ${text} ✦`],
+  ["Diamond", text => `💎 ${convert(text, maps.double)} 💎`],
+  ["Dark King", text => `♚ ${convert(text, maps.boldFraktur)} ♚`]
 ];
 
 const symbolCategories = {
@@ -143,7 +175,12 @@ const symbolCategories = {
   "Natureza": "☀ ☁ ☂ ☔ ❄ ⛄ ⚡ 🌙 🌚 🌝 🌞 🪐 ⭐ 🌈 🌊 🔥 💧 🌪 🌎 🌍 🌌 ☄ 🌋 🏔",
   "Objetos": "⌘ ⌬ ⌲ ⌁ ⌑ ⌖ ⌗ ⌛ ⏳ ⏱ ⏰ ⏭ ⏮ ⏯ ⏸ ⏹ 🔒 🔓 🔑 💎 🧿 🪬 📌 📍",
   "Separadores": "• · ･ 。 ・ | ❘ ❙ ❚ ┃ │ ┆ ┊ ─ ━ ═ ║ ╬ ═ ❖ ◆ ◇ ◈ ▬ ▭ ▰ ▱",
-  "Emoticons": "^_^ -_- >_< o_O O_o T_T :D :) :( ;) :P :3 <3 </3 :v :') :| :0 XD xD UwU OwO"
+  "Emoticons": "^_^ -_- >_< o_O O_o T_T :D :) :( ;) :P :3 <3 </3 :v :') :| :0 XD xD UwU OwO",
+  "Japoneses": "あ い う え お か き く け こ さ し す せ そ た ち つ て と な に ぬ ね の ア イ ウ エ オ カ キ ク ケ コ",
+  "Aesthetic": "୨୧ 𓍯 𓂃 𓈒 𓏸 𓆩𓆪 𓇼 𓋼 𓍼 𓊆𓊇 𝜗𝜚 ᵕ̈ ʚɞ ໒꒱ ꒰꒱ ☁︎ ☾ ⋆ ˚｡",
+  "Dark": "⛧ ☠ ☽ ☾ ⛓ ⚰ 🕷 🕸 🗡 ♱ ♰ ✞ ✟ 𖤐 𖤍 𖣔 𖠌 𖦹 𝖝 𝖔",
+  "Luxo": "♛ ♕ ♔ ♚ ✦ ✧ ✨ 💎 🜲 ⚜ ❖ ◈ 𓆩𓆪 𓂀 𓃭 𓊝 𓇼 𓋹 𓏲",
+  "Roblox": "🧱 🎮 🕹 👾 ⚔ 🛡 🧢 ⭐ 💎 🔥 ⚡ 🏆 xX Xx _z _br playz blox robux noob pro"
 };
 
 const nickPatterns = [
@@ -179,6 +216,39 @@ const nickPatterns = [
   name => `⫷${name}⫸`
 ];
 
+const robloxPatterns = [
+  name => `${name}zap81`,
+  name => `${name}Blox`,
+  name => `${name}Playz`,
+  name => `${name}zin`,
+  name => `${name}zito`,
+  name => `${name}BR`,
+  name => `${name}X`,
+  name => `xX${name}Xx`,
+  name => `${name}_rbx`,
+  name => `${name}_ofc`,
+  name => `Real${capitalize(name)}`,
+  name => `Its${capitalize(name)}`,
+  name => `${name}Craft`,
+  name => `${name}Verse`,
+  name => `${name}Rush`,
+  name => `${name}Ninja`,
+  name => `${name}Pixel`,
+  name => `${name}King`,
+  name => `${name}Wave`,
+  name => `${name}Prime`,
+  name => `${name}Nova`,
+  name => `${name}Storm`,
+  name => `${name}Flex`,
+  name => `${name}Master`,
+  name => `${name}Robux`,
+  name => `Blox${capitalize(name)}`,
+  name => `Zap${capitalize(name)}`,
+  name => `Davi${name.length}Play`,
+  name => `${name}${numberSeed(name)}`,
+  name => `${name}${numberSeed(name) + 17}`
+];
+
 const elements = {
   input: document.querySelector("#mainInput"),
   results: document.querySelector("#results"),
@@ -189,9 +259,13 @@ const elements = {
   theme: document.querySelector("#themeToggle"),
   backToTop: document.querySelector("#backToTop"),
   symbolTabs: document.querySelector("#symbolTabs"),
+  symbolSearch: document.querySelector("#symbolSearch"),
   symbolsGrid: document.querySelector("#symbolsGrid"),
   nickInput: document.querySelector("#nickInput"),
   nickResults: document.querySelector("#nickResults"),
+  robloxInput: document.querySelector("#robloxInput"),
+  robloxResults: document.querySelector("#robloxResults"),
+  filterButtons: document.querySelectorAll(".filter-button"),
   historyList: document.querySelector("#historyList"),
   clearHistory: document.querySelector("#clearHistoryButton"),
   navToggle: document.querySelector(".nav-toggle"),
@@ -205,10 +279,12 @@ function init() {
   elements.year.textContent = new Date().getFullYear();
   elements.input.value = localStorage.getItem("fontvibe:lastText") || "";
   elements.nickInput.value = localStorage.getItem("fontvibe:lastNick") || "";
+  elements.robloxInput.value = localStorage.getItem("fontvibe:lastRoblox") || "";
   applySavedTheme();
   renderResults();
-  renderSymbols(Object.keys(symbolCategories)[0]);
+  renderSymbols(activeSymbolCategory);
   renderNicknames();
+  renderRobloxNicknames();
   renderHistory();
   bindEvents();
 }
@@ -223,6 +299,21 @@ function bindEvents() {
   elements.nickInput.addEventListener("input", () => {
     localStorage.setItem("fontvibe:lastNick", elements.nickInput.value);
     renderNicknames();
+  });
+
+  elements.robloxInput.addEventListener("input", () => {
+    localStorage.setItem("fontvibe:lastRoblox", elements.robloxInput.value);
+    renderRobloxNicknames();
+  });
+
+  elements.symbolSearch.addEventListener("input", () => renderSymbols(activeSymbolCategory));
+
+  elements.filterButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      activeStyleFilter = button.dataset.filter;
+      elements.filterButtons.forEach(item => item.classList.toggle("active", item === button));
+      renderResults();
+    });
   });
 
   elements.copyAll.addEventListener("click", () => {
@@ -247,27 +338,49 @@ function bindEvents() {
 
 function renderResults() {
   const text = getCurrentText();
+  const favorites = getFavorites();
   elements.counter.textContent = `${elements.input.value.length}/280 caracteres`;
   elements.results.innerHTML = "";
   const fragment = document.createDocumentFragment();
 
   styles.forEach(([name, formatter]) => {
+    const category = getStyleCategory(name);
+    if (activeStyleFilter === "Favoritos" && !favorites.includes(name)) return;
+    if (activeStyleFilter !== "Todos" && activeStyleFilter !== "Favoritos" && category !== activeStyleFilter) return;
+
     const converted = formatter(text);
     const card = document.createElement("article");
     card.className = "result-card";
     card.innerHTML = `
-      <h3>${escapeHtml(name)}</h3>
+      <div class="result-topline">
+        <h3>${escapeHtml(name)} · ${escapeHtml(category)}</h3>
+        <button class="favorite-button${favorites.includes(name) ? " active" : ""}" type="button" aria-label="Favoritar ${escapeHtml(name)}" title="Favoritar">★</button>
+      </div>
       <div class="result-text">${escapeHtml(converted)}</div>
       <button type="button">Copiar</button>
     `;
-    card.querySelector("button").addEventListener("click", () => copyText(converted));
+    const favoriteButton = card.querySelector(".favorite-button");
+    favoriteButton.addEventListener("click", () => {
+      toggleFavorite(name);
+      renderResults();
+    });
+    card.querySelector(".result-card > button").addEventListener("click", () => copyText(converted));
     fragment.appendChild(card);
   });
+
+  if (!fragment.childNodes.length) {
+    const empty = document.createElement("article");
+    empty.className = "result-card";
+    empty.innerHTML = "<h3>Nenhum resultado</h3><div class=\"result-text\">Favorite algumas fontes ou escolha outro filtro.</div>";
+    fragment.appendChild(empty);
+  }
 
   elements.results.appendChild(fragment);
 }
 
 function renderSymbols(activeCategory) {
+  activeSymbolCategory = activeCategory;
+  const search = normalizeSearch(elements.symbolSearch.value);
   elements.symbolTabs.innerHTML = "";
   Object.keys(symbolCategories).forEach(category => {
     const button = document.createElement("button");
@@ -279,7 +392,15 @@ function renderSymbols(activeCategory) {
   });
 
   elements.symbolsGrid.innerHTML = "";
-  symbolCategories[activeCategory].split(/\s+/).filter(Boolean).forEach(symbol => {
+  let symbols = symbolCategories[activeCategory].split(/\s+/).filter(Boolean);
+
+  if (search) {
+    symbols = Object.entries(symbolCategories)
+      .filter(([category, content]) => normalizeSearch(`${category} ${content}`).includes(search))
+      .flatMap(([, content]) => content.split(/\s+/).filter(Boolean));
+  }
+
+  [...new Set(symbols)].forEach(symbol => {
     const button = document.createElement("button");
     button.className = "symbol-button";
     button.type = "button";
@@ -300,6 +421,21 @@ function renderNicknames() {
     item.innerHTML = `<span>${escapeHtml(nick)}</span><button type="button">Copiar</button>`;
     item.querySelector("button").addEventListener("click", () => copyText(nick));
     elements.nickResults.appendChild(item);
+  });
+}
+
+function renderRobloxNicknames() {
+  const rawName = elements.robloxInput.value.trim() || elements.nickInput.value.trim() || "davi";
+  const name = normalizeNick(rawName).slice(0, 14) || "player";
+  elements.robloxResults.innerHTML = "";
+
+  robloxPatterns.forEach(pattern => {
+    const nick = pattern(name).slice(0, 20);
+    const item = document.createElement("div");
+    item.className = "nick-item";
+    item.innerHTML = `<span>${escapeHtml(nick)}</span><button type="button">Copiar</button>`;
+    item.querySelector("button").addEventListener("click", () => copyText(nick));
+    elements.robloxResults.appendChild(item);
   });
 }
 
@@ -349,6 +485,59 @@ function getHistory() {
 
 function getCurrentText() {
   return elements.input.value.trim() || sampleText;
+}
+
+function getStyleCategory(name) {
+  const lower = name.toLowerCase();
+  if (lower.includes("instagram") || lower.includes("insta") || lower.includes("bio")) return "Instagram";
+  if (lower.includes("tiktok")) return "TikTok";
+  if (lower.includes("free fire") || lower.includes("ff ")) return "Free Fire";
+  if (lower.includes("gamer") || lower.includes("game") || lower.includes("clã") || lower.includes("roblox") || lower.includes("hacker") || lower.includes("matrix") || lower.includes("streamer") || lower.includes("pixel") || lower.includes("arcade")) return "Gamer";
+  if (lower.includes("aesthetic") || lower.includes("soft") || lower.includes("cute") || lower.includes("kawaii") || lower.includes("princess") || lower.includes("angel") || lower.includes("y2k")) return "Aesthetic";
+  if (lower.includes("dark") || lower.includes("gótico") || lower.includes("skull") || lower.includes("devil") || lower.includes("shadow") || lower.includes("glitch")) return "Dark";
+  if (lower.includes("lux") || lower.includes("royal") || lower.includes("crown") || lower.includes("gold") || lower.includes("diamond") || lower.includes("vip") || lower.includes("elite")) return "Luxo";
+  return "Todos";
+}
+
+function getFavorites() {
+  try {
+    return JSON.parse(localStorage.getItem("fontvibe:favorites") || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function toggleFavorite(name) {
+  const favorites = getFavorites();
+  const next = favorites.includes(name)
+    ? favorites.filter(item => item !== name)
+    : [...favorites, name];
+  localStorage.setItem("fontvibe:favorites", JSON.stringify(next));
+}
+
+function normalizeSearch(value) {
+  return String(value)
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
+}
+
+function normalizeNick(value) {
+  const clean = String(value)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-zA-Z0-9]/g, "")
+    .toLowerCase();
+  return clean || "player";
+}
+
+function capitalize(value) {
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+function numberSeed(value) {
+  return Array.from(value).reduce((sum, char) => sum + char.charCodeAt(0), 0) % 90 + 10;
 }
 
 async function copyText(text) {
