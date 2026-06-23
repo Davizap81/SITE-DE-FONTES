@@ -158,7 +158,22 @@ const styles = [
   ["Luxury Crown", text => `♛ ${convert(text, maps.boldScript)} ♛`],
   ["Gold", text => `✦ GOLD ${text} ✦`],
   ["Diamond", text => `💎 ${convert(text, maps.double)} 💎`],
-  ["Dark King", text => `♚ ${convert(text, maps.boldFraktur)} ♚`]
+  ["Dark King", text => `♚ ${convert(text, maps.boldFraktur)} ♚`],
+  ["Mandarim Clean", text => `字 ${text} 字`],
+  ["Mandarim Dark", text => `龍 ${convert(text, maps.bold)} 影`],
+  ["Mandarim Luxo", text => `帝 ${convert(text, maps.double)} 王`],
+  ["Chinês Gamer", text => `战 ${normalizeNick(text)} 神`],
+  ["Coreano Clean", text => `한 ${text} 글`],
+  ["Coreano K-Pop", text => `♡ ${text} 민 ♡`],
+  ["Coreano Dark", text => `검 ${convert(text, maps.boldFraktur)} 흑`],
+  ["Hangul Style", text => `도 ${normalizeNick(text)} 빛`],
+  ["Japonês Kanji", text => `神 ${text} 忍`],
+  ["Japonês Sakura", text => `桜 ${convert(text, maps.script)} 桜`],
+  ["Japonês Tokyo", text => `東京 ${normalizeNick(text)} 夜`],
+  ["Oriental Elite", text => `王 ${convert(text, maps.boldScript)} 龍`],
+  ["Asia Vibe", text => `✦ ${text} 星 ✦`],
+  ["Samurai Pro", text => `侍 ${convert(text, maps.sansBold)} 忍`],
+  ["K-Style", text => `아이 ${normalizeNick(text)} 스타`]
 ];
 
 const symbolCategories = {
@@ -180,7 +195,10 @@ const symbolCategories = {
   "Aesthetic": "୨୧ 𓍯 𓂃 𓈒 𓏸 𓆩𓆪 𓇼 𓋼 𓍼 𓊆𓊇 𝜗𝜚 ᵕ̈ ʚɞ ໒꒱ ꒰꒱ ☁︎ ☾ ⋆ ˚｡",
   "Dark": "⛧ ☠ ☽ ☾ ⛓ ⚰ 🕷 🕸 🗡 ♱ ♰ ✞ ✟ 𖤐 𖤍 𖣔 𖠌 𖦹 𝖝 𝖔",
   "Luxo": "♛ ♕ ♔ ♚ ✦ ✧ ✨ 💎 🜲 ⚜ ❖ ◈ 𓆩𓆪 𓂀 𓃭 𓊝 𓇼 𓋹 𓏲",
-  "Roblox": "🧱 🎮 🕹 👾 ⚔ 🛡 🧢 ⭐ 💎 🔥 ⚡ 🏆 xX Xx _z _br playz blox robux noob pro"
+  "Roblox": "🧱 🎮 🕹 👾 ⚔ 🛡 🧢 ⭐ 💎 🔥 ⚡ 🏆 xX Xx _z _br playz blox robux noob pro",
+  "Mandarim": "字 文 名 王 帝 龍 龙 虎 神 影 光 星 月 火 水 風 风 山 天 空 夜 忍 戦 战 愛 爱 夢 梦",
+  "Coreano": "한 글 민 준 서 지 유 하 도 윤 별 빛 달 검 흑 백 왕 신 용 불 물 바 람 밤 꿈 사랑",
+  "Japonês": "神 忍 侍 龍 桜 星 月 火 水 風 山 空 夜 光 影 愛 夢 東京 大 阪 心 刀 王 姫 天"
 };
 
 const nickPatterns = [
@@ -213,40 +231,71 @@ const nickPatterns = [
   name => `彡${name}彡`,
   name => `〆${name}〆`,
   name => `༺${name}༻`,
-  name => `⫷${name}⫸`
+  name => `⫷${name}⫸`,
+  name => `${normalizeNick(name)}prime`,
+  name => `${normalizeNick(name)}verse`,
+  name => `${normalizeNick(name)}rush`,
+  name => `${normalizeNick(name)}zone`,
+  name => `${normalizeNick(name)}wave`,
+  name => `${normalizeNick(name)}x`,
+  name => `real${capitalize(normalizeNick(name))}`,
+  name => `use${capitalize(normalizeNick(name))}`,
+  name => `its${capitalize(normalizeNick(name))}`,
+  name => `hey${capitalize(normalizeNick(name))}`,
+  name => `${normalizeNick(name)}br`,
+  name => `${normalizeNick(name)}play`,
+  name => `${normalizeNick(name)}clips`,
+  name => `${normalizeNick(name)}tv`,
+  name => `${normalizeNick(name)}gg`,
+  name => `not${capitalize(normalizeNick(name))}`,
+  name => `${normalizeNick(name)}lab`,
+  name => `${normalizeNick(name)}hub`,
+  name => `王${name}龍`,
+  name => `한${name}빛`,
+  name => `神${name}忍`
 ];
 
 const robloxPatterns = [
-  name => `${name}zap81`,
-  name => `${name}Blox`,
-  name => `${name}Playz`,
-  name => `${name}zin`,
-  name => `${name}zito`,
-  name => `${name}BR`,
-  name => `${name}X`,
-  name => `xX${name}Xx`,
-  name => `${name}_rbx`,
-  name => `${name}_ofc`,
-  name => `Real${capitalize(name)}`,
-  name => `Its${capitalize(name)}`,
-  name => `${name}Craft`,
-  name => `${name}Verse`,
-  name => `${name}Rush`,
-  name => `${name}Ninja`,
-  name => `${name}Pixel`,
-  name => `${name}King`,
-  name => `${name}Wave`,
-  name => `${name}Prime`,
-  name => `${name}Nova`,
-  name => `${name}Storm`,
-  name => `${name}Flex`,
-  name => `${name}Master`,
-  name => `${name}Robux`,
-  name => `Blox${capitalize(name)}`,
-  name => `Zap${capitalize(name)}`,
-  name => `Davi${name.length}Play`,
+  name => `${name}prime`,
+  name => `${name}zbr`,
+  name => `${name}blox`,
+  name => `${name}playz`,
+  name => `${name}verse`,
+  name => `${name}craft`,
+  name => `${name}rush`,
+  name => `${name}zone`,
+  name => `${name}wave`,
+  name => `${name}prime`,
+  name => `${name}nova`,
+  name => `${name}byte`,
+  name => `${name}quest`,
+  name => `${name}builds`,
+  name => `${name}clips`,
+  name => `${name}studio`,
+  name => `${name}hub`,
+  name => `${name}lab`,
+  name => `${name}gg`,
+  name => `${name}br`,
+  name => `${name}x`,
+  name => `real${name}`,
+  name => `its${name}`,
+  name => `hey${name}`,
+  name => `use${name}`,
+  name => `not${name}`,
+  name => `blox${name}`,
+  name => `zap${name}`,
+  name => `play${name}`,
+  name => `rbx${name}`,
+  name => `${name}_${numberSeed(name)}`,
   name => `${name}${numberSeed(name)}`,
-  name => `${name}${numberSeed(name) + 17}`
+  name => `${name}${numberSeed(name) + 17}`,
+  name => `${name}${new Date().getFullYear().toString().slice(2)}`,
+  name => `${name}on`,
+  name => `${name}up`,
+  name => `${name}go`,
+  name => `${name}hq`,
+  name => `${name}vr`,
+  name => `x${name}z`
 ];
 
 const elements = {
@@ -425,12 +474,12 @@ function renderNicknames() {
 }
 
 function renderRobloxNicknames() {
-  const rawName = elements.robloxInput.value.trim() || elements.nickInput.value.trim() || "davi";
+  const rawName = elements.robloxInput.value.trim() || elements.nickInput.value.trim() || "player";
   const name = normalizeNick(rawName).slice(0, 14) || "player";
   elements.robloxResults.innerHTML = "";
 
-  robloxPatterns.forEach(pattern => {
-    const nick = pattern(name).slice(0, 20);
+  const nicks = [...new Set(robloxPatterns.map(pattern => pattern(name).slice(0, 20)))];
+  nicks.forEach(nick => {
     const item = document.createElement("div");
     item.className = "nick-item";
     item.innerHTML = `<span>${escapeHtml(nick)}</span><button type="button">Copiar</button>`;
